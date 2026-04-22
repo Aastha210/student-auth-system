@@ -28,14 +28,28 @@ router.post("/register", async (req, res) => {
 
 // LOGIN
 router.post("/login", async (req, res) => {
-    console.log("LOGIN REQUEST BODY:", req.body);
+  console.log("LOGIN BODY:", req.body);
+
   const { email, password } = req.body;
 
+  console.log("EMAIL RECEIVED:", email);
+  console.log("PASSWORD RECEIVED:", password);
+
   const user = await Student.findOne({ email });
-  if (!user) return res.status(400).json({ msg: "Invalid credentials" });
+
+  console.log("USER FOUND IN DB:", user);
+
+  if (!user) {
+    return res.status(400).json({ msg: "Invalid credentials (user not found)" });
+  }
 
   const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(400).json({ msg: "Invalid credentials" });
+
+  console.log("PASSWORD MATCH RESULT:", match);
+
+  if (!match) {
+    return res.status(400).json({ msg: "Invalid credentials (password mismatch)" });
+  }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
