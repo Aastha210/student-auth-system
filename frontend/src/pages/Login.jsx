@@ -3,23 +3,28 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 export default function Login() {
   const submit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await API.post("/login", {
-        email: e.target.email.value,
-        password: e.target.password.value
-      });
+  try {
+    const res = await API.post("/login", {
+      email: e.target.email.value,
+      password: e.target.password.value
+    });
 
+    console.log("LOGIN RESPONSE:", res.data);
+
+    if (res.data && res.data.token) {
       localStorage.setItem("token", res.data.token);
-      // window.location.href = "/dashboard";
-      const navigate = useNavigate();
-navigate("/dashboard");
-
-    } catch {
-      alert("Invalid login");
+      window.location.href = "/dashboard";
+    } else {
+      alert("Login failed: No token received");
     }
-  };
+
+  } catch (err) {
+    console.log("LOGIN ERROR:", err.response?.data || err.message);
+    alert("Invalid login");
+  }
+};
 
   return (
     <div className="container">
