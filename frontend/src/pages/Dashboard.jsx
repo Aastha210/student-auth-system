@@ -5,7 +5,6 @@ export default function Dashboard() {
   const [user, setUser] = useState({});
   const token = localStorage.getItem("token");
 
-  // Fetch user details
   useEffect(() => {
     API.get("/me", {
       headers: { Authorization: token }
@@ -14,7 +13,6 @@ export default function Dashboard() {
       .catch(() => alert("Unauthorized"));
   }, []);
 
-  // Update password
   const updatePassword = async (e) => {
     e.preventDefault();
 
@@ -28,19 +26,17 @@ export default function Dashboard() {
         { headers: { Authorization: token } }
       );
 
-      alert("Password updated successfully");
+      alert("Password updated");
 
-// 🔐 Logout user
-localStorage.removeItem("token");
+      // logout after change
+      localStorage.removeItem("token");
+      window.location.href = "/";
 
-// 🔄 Redirect to login page
-window.location.href = "/";
     } catch {
       alert("Wrong old password");
     }
   };
 
-  // Update course
   const updateCourse = async (e) => {
     e.preventDefault();
 
@@ -53,12 +49,12 @@ window.location.href = "/";
 
       alert("Course updated");
       window.location.reload();
+
     } catch {
       alert("Error updating course");
     }
   };
 
-  // Logout
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
@@ -69,7 +65,6 @@ window.location.href = "/";
 
       <h2>Dashboard</h2>
 
-      {/* Student Details */}
       <div className="card">
         <h3>Student Details</h3>
         <p><b>Name:</b> {user.name}</p>
@@ -77,7 +72,6 @@ window.location.href = "/";
         <p><b>Course:</b> {user.course}</p>
       </div>
 
-      {/* Update Password */}
       <div className="card">
         <h3>Update Password</h3>
         <form onSubmit={updatePassword}>
@@ -87,7 +81,6 @@ window.location.href = "/";
         </form>
       </div>
 
-      {/* Update Course */}
       <div className="card">
         <h3>Change Course</h3>
         <form onSubmit={updateCourse}>

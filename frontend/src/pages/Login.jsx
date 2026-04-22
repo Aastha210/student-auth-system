@@ -1,5 +1,4 @@
 import API from "../api/axios";
-import { Link } from "react-router-dom";
 
 export default function Login() {
   const submit = async (e) => {
@@ -12,23 +11,26 @@ export default function Login() {
       });
 
       localStorage.setItem("token", res.data.token);
+
       window.location.href = "/dashboard";
 
     } catch {
-      alert("Invalid login");
+      alert("Invalid credentials");
     }
   };
 
   return (
     <div className="container">
       <h2>Login</h2>
+
       <form onSubmit={submit}>
         <input name="email" placeholder="Email" required />
-        <input name="password" placeholder="Password" type="password" required />
-        <button>Login</button>
+        <input name="password" type="password" placeholder="Password" required />
+
+        <button type="submit">Login</button>
       </form>
 
-      <Link to="/register">Create new account</Link>
+      <a href="/register">Create new account</a>
     </div>
   );
 }
