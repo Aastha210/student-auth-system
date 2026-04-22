@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api/axios";
 
 export default function Dashboard() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const token = localStorage.getItem("token");
 
   // Fetch user details
@@ -11,7 +11,7 @@ export default function Dashboard() {
       headers: { Authorization: token }
     })
       .then(res => setUser(res.data))
-      .catch(() => alert("Unauthorized"));
+      .catch(err => console.log(err));
   }, []);
 
   // Update password
@@ -72,9 +72,9 @@ window.location.href = "/";
       {/* Student Details */}
       <div className="card">
         <h3>Student Details</h3>
-        <p><b>Name:</b> {user.name}</p>
-        <p><b>Email:</b> {user.email}</p>
-        <p><b>Course:</b> {user.course}</p>
+        <p><b>Name:</b> {user?.name}</p>
+        <p><b>Email:</b> {user?.email}</p>
+        <p><b>Course:</b> {user?.course}</p>
       </div>
 
       {/* Update Password */}
