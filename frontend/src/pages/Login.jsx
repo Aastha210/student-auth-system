@@ -15,7 +15,8 @@ export default function Login() {
 
     if (res.data && res.data.token) {
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/dashboard";
+      const navigate = useNavigate();
+navigate("/dashboard");
     } else {
       alert("Login failed: No token received");
     }
