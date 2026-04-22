@@ -1,6 +1,6 @@
 import API from "../api/axios";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
@@ -12,7 +12,9 @@ export default function Login() {
       });
 
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/dashboard";
+      // window.location.href = "/dashboard";
+      const navigate = useNavigate();
+navigate("/dashboard");
 
     } catch {
       alert("Invalid login");
