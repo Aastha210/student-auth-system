@@ -1,11 +1,12 @@
 import API from "../api/axios";
 
 export default function Register() {
+
   const submit = async (e) => {
     e.preventDefault();
 
     try {
-      await API.post("/register", {
+      const res = await API.post("/register", {
         name: e.target.name.value,
         email: e.target.email.value,
         password: e.target.password.value,
@@ -14,10 +15,11 @@ export default function Register() {
 
       alert("Registered successfully");
 
-      // redirect to login
+      // redirect to login page
       window.location.href = "/";
 
     } catch (err) {
+      console.log(err);
       alert(err.response?.data?.msg || "Registration failed");
     }
   };
@@ -30,12 +32,10 @@ export default function Register() {
         <input name="name" placeholder="Name" required />
         <input name="email" placeholder="Email" required />
         <input name="password" type="password" placeholder="Password" required />
-        <input name="course" placeholder="Course" required />
+        <input name="course" placeholder="Course" />
 
         <button type="submit">Register</button>
       </form>
-
-      <a href="/">Already have an account? Login</a>
     </div>
   );
 }

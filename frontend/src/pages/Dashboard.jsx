@@ -5,6 +5,7 @@ export default function Dashboard() {
   const [user, setUser] = useState({});
   const token = localStorage.getItem("token");
 
+  // Fetch user details
   useEffect(() => {
     API.get("/me", {
       headers: { Authorization: token }
@@ -13,6 +14,7 @@ export default function Dashboard() {
       .catch(() => alert("Unauthorized"));
   }, []);
 
+  // Update password
   const updatePassword = async (e) => {
     e.preventDefault();
 
@@ -27,16 +29,12 @@ export default function Dashboard() {
       );
 
       alert("Password updated");
-
-      // logout after change
-      localStorage.removeItem("token");
-      window.location.href = "/";
-
     } catch {
       alert("Wrong old password");
     }
   };
 
+  // Update course
   const updateCourse = async (e) => {
     e.preventDefault();
 
@@ -47,14 +45,20 @@ export default function Dashboard() {
         { headers: { Authorization: token } }
       );
 
-      alert("Course updated");
-      window.location.reload();
+      alert("Password updated successfully");
 
+// 🔐 Logout user
+localStorage.removeItem("token");
+
+// 🔄 Redirect to login page
+window.location.href = "/";
+      window.location.reload();
     } catch {
       alert("Error updating course");
     }
   };
 
+  // Logout
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
@@ -65,6 +69,7 @@ export default function Dashboard() {
 
       <h2>Dashboard</h2>
 
+      {/* Student Details */}
       <div className="card">
         <h3>Student Details</h3>
         <p><b>Name:</b> {user.name}</p>
@@ -72,6 +77,7 @@ export default function Dashboard() {
         <p><b>Course:</b> {user.course}</p>
       </div>
 
+      {/* Update Password */}
       <div className="card">
         <h3>Update Password</h3>
         <form onSubmit={updatePassword}>
@@ -81,6 +87,7 @@ export default function Dashboard() {
         </form>
       </div>
 
+      {/* Update Course */}
       <div className="card">
         <h3>Change Course</h3>
         <form onSubmit={updateCourse}>

@@ -7,7 +7,6 @@ const auth = require("../middleware/auth");
 
 // REGISTER
 router.post("/register", async (req, res) => {
-    console.log("BODY:", req.body); 
   try {
     const { name, email, password, course } = req.body;
 
